@@ -1,0 +1,12 @@
+[
+  "Task: Write an email\nStep 1: Walk to home office\nStep 2: Walk to computer\nStep 3: Find computer\nStep 4: Turn to computer\nStep 5: Look at computer\nStep 6: Walk to computer\nStep 7: Find chair\nStep 8: Sit on chair\nStep 9: Find keyboard\nStep 10: Grab keyboard\nStep 11: Find mouse\nStep 12: Grab mouse\nStep 13: Type on keyboard",
+  "Task: Take shower\nStep 1: Find clothes dress\nStep 2: Find towel\nStep 3: Walk to bathroom\nStep 4: Walk to shower\nStep 5: Find shower",
+  "Task: Watch TV\nStep 1: Find remote control\nStep 2: Grab remote control\nStep 3: Find television\nStep 4: Switch on television\nStep 5: Turn to television\nStep 6: Watch television\nStep 7: Switch off television\nStep 8: Put back remote control",
+  "Task: Hang up jacket\nStep 1: Walk to home office\nStep 2: Walk to clothes jacket\nStep 3: Find clothes jacket\nStep 4: Grab clothes jacket\nStep 5: Walk to wall\nStep 6: Find hanger\nStep 7: Put clothes jacket on hanger",
+  "Task: Wash clothes\nStep 1: Walk to bathroom\nStep 2: Walk to basket for clothes\nStep 3: Find basket for clothes\nStep 4: Grab basket for clothes\nStep 5: Find washing machine\nStep 6: Open washing machine\nStep 7: Put basket for clothes on washing machine\nStep 8: Find washing machine\nStep 9: Close washing machine\nStep 10: Switch on washing machine",
+  "Task: Read book\nStep 1: Find novel\nStep 2: Grab novel\nStep 3: Read novel",
+  "Task: Wash clothes\nStep 1: Find basket for clothes\nStep 2: Grab basket for clothes\nStep 3: Find washing machine\nStep 4: Open washing machine\nStep 5: Put basket for clothes on washing machine\nStep 6: Find soap\nStep 7: Grab soap\nStep 8: Put soap on washing machine\nStep 9: Close washing machine\nStep 10: Switch on washing machine",
+  "Task: Pick up phone\nStep 1: Walk to phone\nStep 2: Grab phone",
+  "Task: Change TV channel\nStep 1: Walk to home office\nStep 2: Walk to remote control\nStep 3: Find remote control\nStep 4: Grab remote control\nStep 5: Walk to couch\nStep 6: Sit on couch\nStep 7: Find television\nStep 8: Switch on television\nStep 9: Turn to remote control\nStep 10: Look at remote control\nStep 11: Push remote control",
+  "Task: Work\nStep 1: Walk to home office\nStep 2: Walk to chair\nStep 3: Find chair\nStep 4: Sit on chair\nStep 5: Find computer\nStep 6: Switch on computer\nStep 7: Turn to computer\nStep 8: Look at computer"
+]

@@ -9,7 +9,6 @@ device = 0
 if torch.cuda.is_available():
     torch.cuda.set_device(device)
 
-
 source = 'openai'  # select from ['openai', 'huggingface']
 planning_lm_id = 'gpt2-large'  # see comments above for all options
 translation_lm_id = 'stsb-roberta-large'  # see comments above for all options
@@ -42,20 +41,22 @@ def lm_engine(source, planning_lm_id, device):
     return _generate
 
 
+generator = lm_engine(source, planning_lm_id, device)
+
 # initialize Translation LM
-# translation_lm = SentenceTransformer(translation_lm_id).to(device)
+translation_lm = SentenceTransformer(translation_lm_id).to(device)
 
 # create action embeddings using Translated LM
 with open('available_actions.json', 'r') as f:
     action_list = json.load(f)
-# action_list_embedding = translation_lm.encode(action_list, batch_size=512, convert_to_tensor=True,
-#                                               device=device)  # lower batch_size if limited by GPU memory
-
+action_list_embedding = translation_lm.encode(action_list, batch_size=512, convert_to_tensor=True, device=device)
 
 # create example task embeddings using Translated LM
 with open('available_examples.json', 'r') as f:
     available_examples = json.load(f)
 example_task_list = [example.split('\n')[0] for example in available_examples]  # first line contains the task name
+
+
 # example_task_embedding = translation_lm.encode(example_task_list, batch_size=512, convert_to_tensor=True,
 #                                                device=device)  # lower batch_size if limited by GPU memory
 
@@ -80,9 +81,9 @@ example = available_examples[example_idx]
 # construct initial prompt
 curr_prompt = f'{example}\n\nTask: {task}'
 # print example and query task
-print('-'*10 + ' GIVEN EXAMPLE ' + '-'*10)
+print('-' * 10 + ' GIVEN EXAMPLE ' + '-' * 10)
 print(example)
-print('-'*10 + ' EXAMPLE END ' + '-'*10)
+print('-' * 10 + ' EXAMPLE END ' + '-' * 10)
 print(f'\nTask: {task}')
 for step in range(1, MAX_STEPS + 1):
     best_overall_score = -np.inf
@@ -109,13 +110,14 @@ for step in range(1, MAX_STEPS + 1):
     are_zero_length = all([len(samples[i]) == 0 for i in top_samples_ids])
     below_threshold = best_overall_score < CUTOFF_THRESHOLD
     if are_zero_length:
-        print(f'\n[Terminating early because top {P*100}% of samples are all 0-length]')
+        print(f'\n[Terminating early because top {P * 100}% of samples are all 0-length]')
         break
     elif below_threshold:
-        print(f'\n[Terminating early because best overall score is lower than CUTOFF_THRESHOLD ({best_overall_score} < {CUTOFF_THRESHOLD})]')
+        print(
+            f'\n[Terminating early because best overall score is lower than CUTOFF_THRESHOLD ({best_overall_score} < {CUTOFF_THRESHOLD})]')
         break
     else:
         previous_action = best_action
-        formatted_action = (best_action[0].upper() + best_action[1:]).replace('_', ' ') # 'open_fridge' -> 'Open fridge'
+        formatted_action = (best_action[0].upper() + best_action[1:]).replace('_', ' ')  # 'open_fridge' -> 'Open fridge'
         curr_prompt += f'\nStep {step}: {formatted_action}'
         print(f'Step {step}: {formatted_action}')
