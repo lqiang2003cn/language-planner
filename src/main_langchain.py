@@ -9,6 +9,7 @@ underlying_embeddings = OpenAIEmbeddings()
 with open('available_actions_min.json', 'r') as f:
     action_list = json.load(f)
 
+
 with open('available_examples_min.json', 'r') as f:
     available_examples = json.load(f)
 example_task_list = [example.split('\n')[0] for example in available_examples]
@@ -19,6 +20,9 @@ action_list_embeds = action_embedder.embed_documents(action_list)
 example_task_list_embeds = action_embedder.embed_documents(example_task_list)
 
 db = Chroma.from_texts(action_list, action_embedder)
-retriever = db.as_retriever(search_kwargs={'k': 1})
-retrieved_docs = retriever.invoke("banana")
+retriever = db.as_retriever(
+    search_type="similarity_score_threshold",
+    search_kwargs={'score_threshold': 0.8}
+)
+retrieved_docs = retriever.invoke("rocket")
 print(retrieved_docs)
