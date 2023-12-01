@@ -10,6 +10,8 @@ loader = JSONLoader(
     text_content=True
 )
 data = loader.load()
+for d in data:
+    d.page_content = d.page_content.split('\n')[0]
 
 collection_name = "available_example_index"
 embedding = OpenAIEmbeddings()
@@ -24,9 +26,9 @@ record_manager = SQLRecordManager(namespace, db_url=sql)
 record_manager.create_schema()
 
 
-# def clear():
-#     print(index([], record_manager, vectorstore, cleanup="full", source_id_key="seq_num"))
-#
+def clear():
+    print(index([], record_manager, vectorstore, cleanup="full", source_id_key="seq_num"))
+
 # clear()
 
 print(index(

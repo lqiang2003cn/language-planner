@@ -4,7 +4,7 @@ from langchain.indexes import SQLRecordManager, index
 from langchain.schema import Document
 from langchain.vectorstores import ElasticsearchStore
 
-collection_name = "available_action_index"
+collection_name = "available_example_index"
 embedding = OpenAIEmbeddings()
 vectorstore = ElasticsearchStore(
     es_url="http://192.168.50.66:9200",
@@ -12,7 +12,9 @@ vectorstore = ElasticsearchStore(
     embedding=embedding
 )
 
-retriever = vectorstore.as_retriever(search_kwargs={'k': 4})
-retrieved_docs = retriever.invoke("eat apple")
+task = 'Make breakfast'
+retriever = vectorstore.as_retriever(search_kwargs={'k': 1})
+retrieved_docs = retriever.invoke(task)[0]
 print(retrieved_docs)
 
+curr_prompt = f'{retrieved_docs.page_content}\n\nTask: {task}'
