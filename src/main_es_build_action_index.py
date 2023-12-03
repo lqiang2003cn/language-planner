@@ -24,9 +24,9 @@ record_manager = SQLRecordManager(namespace, db_url=sql)
 record_manager.create_schema()
 
 
-# def clear():
-#     print(index([], record_manager, vectorstore, cleanup="full", source_id_key="seq_num"))
-#
+def clear():
+    print(index([], record_manager, vectorstore, cleanup="full", source_id_key="seq_num"))
+
 # clear()
 
 print(index(

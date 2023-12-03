@@ -1,28 +1,21 @@
-import json
+from langchain.chat_models import ChatOpenAI
+from langchain.prompts import PromptTemplate
+from openlm.llm import OpenAI
 
-from langchain.embeddings import CacheBackedEmbeddings, OpenAIEmbeddings
-from langchain.storage import LocalFileStore
-from langchain.vectorstores.chroma import Chroma
-
-underlying_embeddings = OpenAIEmbeddings()
-
-with open('available_actions_min.json', 'r') as f:
-    action_list = json.load(f)
-
-
-with open('available_examples_min.json', 'r') as f:
-    available_examples = json.load(f)
-example_task_list = [example.split('\n')[0] for example in available_examples]
-
-fs = LocalFileStore("/home/lq/lq_projects/seamless_communication/language-planner/src/vectordb")
-action_embedder = CacheBackedEmbeddings.from_bytes_store(underlying_embeddings, fs, namespace=underlying_embeddings.model)
-action_list_embeds = action_embedder.embed_documents(action_list)
-example_task_list_embeds = action_embedder.embed_documents(example_task_list)
-
-db = Chroma.from_texts(action_list, action_embedder)
-retriever = db.as_retriever(
-    search_type="similarity_score_threshold",
-    search_kwargs={'score_threshold': 0.8}
+llm = OpenAI(
+    temperature=0.6
+    # max_tokens=10,
+    # n=10,
+    # model_kwargs={
+    #     "top_p": 0.9,
+    #     "logprobs": 1,
+    #     "presence_penalty": 0.5,
+    #     "frequency_penalty": 0.3,
+    # }
 )
-retrieved_docs = retriever.invoke("rocket")
-print(retrieved_docs)
+
+prompt = PromptTemplate.from_template("Task: Cook some food\n\nTask: Make breakfast")
+o = llm(prompt.template)
+# chain = prompt | llm
+# p = chain.({})
+print(o)
